@@ -1,7 +1,7 @@
 import csv
 import struct
 import os
-from gsheets_downloader import download_gsheets
+from modules.gsheets_downloader import download_gsheets
 
 translation_table = str.maketrans(
     'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяЁёЄєІіЇїҐґ–…',
