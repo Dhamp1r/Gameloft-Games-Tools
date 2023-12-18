@@ -56,7 +56,7 @@ def process_data(dat_file_path, output_folder):
 
 def process_files_in_folder(input_folder, output_folder):
     for file_name in os.listdir(input_folder):
-        if file_name.endswith('.dat'):
+        if file_name.endswith('.text'):
             dat_file_path = os.path.join(input_folder, file_name)
             process_data(dat_file_path, output_folder)
 

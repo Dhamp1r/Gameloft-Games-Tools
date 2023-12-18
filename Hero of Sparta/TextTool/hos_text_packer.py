@@ -40,7 +40,7 @@ def process_gsheets_to_binary(url, text_file_path, off_file_path):
         count = []  # number of rows
 
         for row in reader:
-            text = row[1]  # first column original text, second column translation
+            text = row[1]  # first column [0] original text, second column [1] translation
             eng_text = row[0]
             if not text.strip():
                 text = eng_text
