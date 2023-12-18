@@ -1,10 +1,10 @@
+import os
 import struct
 
 translation_table = str.maketrans(
     'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ¡¢¹º²³§¨¼½¾¿',
     'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяЁёЄєІіЇїҐґ–…'
 )
-
 
 def EncodeText(string):
     string = string.replace('\x0A', '\\n')
@@ -25,8 +25,7 @@ def EncodeText(string):
     string = string.replace('\x0F', '[x0F]')
     return string
 
-
-def process_data(off_file_path, dat_file_path, output_file_path):
+def process_data(off_file_path, dat_file_path, output_folder):
     with open(off_file_path, 'rb') as off_file, open(dat_file_path, 'rb') as dat_file:
         count_str = struct.unpack('H', off_file.read(2))[0]
         block_off = count_str * 2
@@ -39,18 +38,31 @@ def process_data(off_file_path, dat_file_path, output_file_path):
 
         data = dat_file.read()
 
+        dat_filename = os.path.splitext(os.path.basename(dat_file_path))[0]
+        output_file_path = os.path.join(output_folder, f'{dat_filename}.txt')
+
         with open(output_file_path, 'w', encoding='utf-8') as output_file:
             for i in range(count_str):
                 start_off = offsets[i]
                 end_off = offsets[i + 1] - 1 if i < count_str - 1 else block_off
                 text = data[start_off:end_off].decode('utf-8')
-                encode = text.translate(translation_table)
-                encode2 = EncodeText(encode)
+                # encode = text.translate(translation_table)  # use only for Ukrainian and Russian language
+                encode2 = EncodeText(text)  # for Ukrainian and Russian language change 'text' to 'encode'
                 output_file.write(encode2 + '\n')
-                print(encode2)
+
+def find_files_with_extension(folder, extension):
+    files = [file for file in os.listdir(folder) if file.endswith(extension)]
+    return sorted(files, key=lambda x: int(os.path.splitext(x)[0]))
 
 
-off_file_path = '2_5411.dat'
-dat_file_path = '1_3e.dat'
-output_file_path = 'output.txt'
-process_data(off_file_path, dat_file_path, output_file_path)
+folder_path = 'input'
+output_folder = 'output'
+off_files = find_files_with_extension(folder_path, '.off')
+dat_files = find_files_with_extension(folder_path, '.dat')
+
+for off_file_name, dat_file_name in zip(off_files, dat_files):
+    off_file_path = os.path.join(folder_path, off_file_name)
+    dat_file_path = os.path.join(folder_path, dat_file_name)
+    process_data(off_file_path, dat_file_path, output_folder)
+
+print("Processing complete.")
