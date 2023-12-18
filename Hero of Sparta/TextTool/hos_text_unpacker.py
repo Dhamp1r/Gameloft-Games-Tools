@@ -6,6 +6,7 @@ translation_table = str.maketrans(
     'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяЁёЄєІіЇїҐґ–…'
 )
 
+
 def EncodeText(string):
     string = string.replace('\x0A', '\\n')
     string = string.replace('\x00', '[x00]')
@@ -24,6 +25,7 @@ def EncodeText(string):
     string = string.replace('\x0E', '[x0E]')
     string = string.replace('\x0F', '[x0F]')
     return string
+
 
 def process_data(off_file_path, dat_file_path, output_folder):
     with open(off_file_path, 'rb') as off_file, open(dat_file_path, 'rb') as dat_file:
@@ -49,6 +51,7 @@ def process_data(off_file_path, dat_file_path, output_folder):
                 # encode = text.translate(translation_table)  # use only for Ukrainian and Russian language
                 encode2 = EncodeText(text)  # for Ukrainian and Russian language change 'text' to 'encode'
                 output_file.write(encode2 + '\n')
+
 
 def find_files_with_extension(folder, extension):
     files = [file for file in os.listdir(folder) if file.endswith(extension)]
