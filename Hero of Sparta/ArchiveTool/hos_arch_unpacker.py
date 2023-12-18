@@ -1,4 +1,3 @@
-import sys
 import os
 
 def recognize_format(file_data):
@@ -13,45 +12,54 @@ def recognize_format(file_data):
     else:
         return 'dat'
 
-def read_binary_file(filename):
-    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'exp_text')
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+def read_binary_file(input_folder, output_folder):
+    input_files = os.listdir(input_folder)
 
-    with open(filename, 'rb') as file:
-        bytes_read = file.read(2)
-        reversed_bytes = bytes_read[::-1]
-        dex_value = int.from_bytes(reversed_bytes, byteorder='big')
-        offset_length = dex_value * 4
-        file.seek(2)
+    for input_file_name in input_files:
+        input_file_path = os.path.join(input_folder, input_file_name)
 
-        offsets = []
-        seen_values = set()
+        with open(input_file_path, 'rb') as file:
+            bytes_read = file.read(2)
+            reversed_bytes = bytes_read[::-1]
+            dex_value = int.from_bytes(reversed_bytes, byteorder='big')
+            offset_length = dex_value * 4
+            file.seek(2)
 
-        for _ in range(dex_value):
-            data = file.read(4)
+            offsets = []
+            seen_values = set()
 
-            combined_data = ''.join([format(byte, '02X') for byte in reversed(data)])
+            for _ in range(dex_value):
+                data = file.read(4)
 
-            if combined_data not in seen_values:
-                offsets.append(combined_data)
-                seen_values.add(combined_data)
+                combined_data = ''.join([format(byte, '02X') for byte in reversed(data)])
 
-        for i in range(len(offsets) - 1):
-            start_offset = (offset_length + 2) + int(offsets[i], 16)
-            end_offset = (offset_length + 2) + int(offsets[i+1], 16)
-            file.seek(start_offset)
+                if combined_data not in seen_values:
+                    offsets.append(combined_data)
+                    seen_values.add(combined_data)
 
-            file_data = file.read(end_offset - start_offset)
+            for i in range(len(offsets) - 1):
+                start_offset = (offset_length + 2) + int(offsets[i], 16)
+                end_offset = (offset_length + 2) + int(offsets[i + 1], 16)
+                file.seek(start_offset)
 
-            file_extension = recognize_format(file_data)
+                file_data = file.read(end_offset - start_offset)
 
-            output_filename = f'{start_offset}.{file_extension}'
-            output_filepath = os.path.join(output_dir, output_filename)
-            with open(output_filepath, 'wb') as output_file:
-                output_file.write(file_data)
+                file_extension = recognize_format(file_data)
 
-            print(f"{output_filename} unpacked")
+                output_file_folder = os.path.join(output_folder, input_file_name)
+                if not os.path.exists(output_file_folder):
+                    os.makedirs(output_file_folder)
+
+                output_filename = f'{start_offset}.{file_extension}'
+                output_filepath = os.path.join(output_file_folder, output_filename)
+                with open(output_filepath, 'wb') as output_file:
+                    output_file.write(file_data)
+
+                print(f"{output_filename} unpacked in {output_file_folder}")
 
 
-read_binary_file('TEXT')
+input_folder = 'input'
+output_folder = 'output'
+
+read_binary_file(input_folder, output_folder)
+print("Processing complete.")
