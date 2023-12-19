@@ -1,4 +1,4 @@
-"""Hero os Sparta Archive Unpacker
+"""Hero of Sparta Archive Unpacker
    Tested on game version 1.1.4
 
    Author: Dhampir

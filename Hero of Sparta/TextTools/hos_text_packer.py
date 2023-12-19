@@ -1,4 +1,4 @@
-"""Hero os Sparta Text Packer
+"""Hero of Sparta Text Packer
    Tested on game version 1.1.4
 
    Author: Dhampir
