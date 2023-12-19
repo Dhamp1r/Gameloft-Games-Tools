@@ -7,6 +7,7 @@
 """
 
 import os
+import struct
 
 def recognize_format(file_data):
     if b'PVR!' in file_data:
@@ -27,16 +28,13 @@ def read_binary_file(input_folder, output_folder):
         input_file_path = os.path.join(input_folder, input_file_name)
 
         with open(input_file_path, 'rb') as file:
-            bytes_read = file.read(2)
-            reversed_bytes = bytes_read[::-1]
-            dex_value = int.from_bytes(reversed_bytes, byteorder='big')
-            offset_length = dex_value * 4
-            file.seek(2)
+            count = struct.unpack('H', file.read(2))[0]
+            offset_length = count * 4
 
             offsets = []
             seen_values = set()
 
-            for _ in range(dex_value):
+            for _ in range(count):
                 data = file.read(4)
 
                 combined_data = ''.join([format(byte, '02X') for byte in reversed(data)])
