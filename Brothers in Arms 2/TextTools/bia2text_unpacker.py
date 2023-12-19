@@ -1,3 +1,6 @@
+"""Brother in Arms 2 Text Unpacker by Dhampir v1.0
+   Tested on game version 1.0.4"""
+
 import os
 import struct
 

@@ -1,3 +1,6 @@
+"""Hero os Sparta Archive Unpacker by Dhampir v1.0
+   Tested on game version 1.1.4"""
+
 import os
 
 def recognize_format(file_data):

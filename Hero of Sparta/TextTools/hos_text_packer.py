@@ -1,3 +1,6 @@
+"""Hero os Sparta Text Packer by Dhampir v1.0
+   Tested on game version 1.1.4"""
+
 import csv
 import struct
 import os
