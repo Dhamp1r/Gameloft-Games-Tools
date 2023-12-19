@@ -1,5 +1,5 @@
 """Brother in Arms 2 Archive Unpacker
-   Tested on game version 1.0.4
+   Tested on game version 1.0.4 (fonts, text files)
 
    Author: Dhampir
    Version: 1.0
