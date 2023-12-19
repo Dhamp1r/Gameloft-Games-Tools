@@ -1,5 +1,10 @@
-"""Brother in Arms 2 Text Unpacker by Dhampir v1.0
-   Tested on game version 1.0.4"""
+"""Brother in Arms 2 Text Unpacker
+   Tested on game version 1.0.4
+
+   Author: Dhampir
+   Version: 1.0
+   License: MIT
+"""
 
 import os
 import struct

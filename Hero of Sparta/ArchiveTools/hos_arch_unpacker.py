@@ -1,5 +1,10 @@
-"""Hero os Sparta Archive Unpacker by Dhampir v1.0
-   Tested on game version 1.1.4"""
+"""Hero os Sparta Archive Unpacker
+   Tested on game version 1.1.4
+
+   Author: Dhampir
+   Version: 1.0
+   License: MIT
+"""
 
 import os
 

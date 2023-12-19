@@ -1,5 +1,10 @@
-"""Hero os Sparta Text Packer by Dhampir v1.0
-   Tested on game version 1.1.4"""
+"""Hero os Sparta Text Packer
+   Tested on game version 1.1.4
+
+   Author: Dhampir
+   Version: 1.0
+   License: MIT
+"""
 
 import csv
 import struct
